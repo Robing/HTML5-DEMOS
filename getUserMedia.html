@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <h1>GetUserMedia demo</h1>
+    <video autoplay controls=""></video>
+</body>
+<script>
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    var hdConstraints = {
+        video: {
+            mandatory: {
+                Width: 1280,
+//                minHeight: 720
+                aspectRatio: 1.5
+            }
+        }
+    };
+    var vgaConstraints = {
+        video: {
+            mandatory: {
+                maxWidth: 640,
+                maxHeight: 360
+            }
+        }
+    };
+
+    var constraints = {audio: false, video: true};
+    var video = document.querySelector("video");
+
+    function successCallback(stream) {
+        window.stream = stream; // stream available to console
+        if (window.URL) {
+            video.src = window.URL.createObjectURL(stream);
+        } else {
+            video.src = stream;
+        }
+    }
+
+    function errorCallback(error){
+        console.log("navigator.getUserMedia error: ", error);
+    }
+
+    navigator.getUserMedia(hdConstraints, successCallback, errorCallback);
+</script>
+</html>
